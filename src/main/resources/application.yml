@@ -1,0 +1,28 @@
+server:
+  port: 1926
+
+# MYSQL
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    name: mysql
+    url: jdbc:mysql://${GITHUB_SCREENSHOT_DB_IP:localhost}:${GITHUB_SCREENSHOT_DB_PORT:3306}/githubscreenshotsdatabase
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:password}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: githubscreenshotmailer
+
+# SWAGGER
+springdoc:
+  api-docs:
+    enabled: true
+  show-actuator: true
+  override-with-generic-response: false
