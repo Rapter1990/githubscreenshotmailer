@@ -26,3 +26,12 @@ springdoc:
     enabled: true
   show-actuator: true
   override-with-generic-response: false
+
+github-automation:
+  # Directory to store screenshots (will be created if missing)
+  screenshotDir: ${SCREENSHOT_DIR:./screenshots}
+  # Default headless mode for Selenium
+  headless: ${SELENIUM_HEADLESS:true}
+  # Optional login; empty means no login
+  loginEmail: ${GITHUB_LOGIN_EMAIL:}
+  loginPassword: ${GITHUB_LOGIN_PASSWORD:}
