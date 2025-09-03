@@ -20,6 +20,27 @@ spring:
   application:
     name: githubscreenshotmailer
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_ADDRESS:your_gmail_address@gmail.com}
+    password: ${GMAIL_PASSWORD:your_16_char_app_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+      debug: false
+
+  devtools:
+    restart:
+      additional-exclude: >
+        **/screenshots/**,**/*.png,**/*.jpg,**/*.jpeg,**/_debug/**
+    livereload:
+      enabled: false
+
 # SWAGGER
 springdoc:
   api-docs:
@@ -33,5 +54,7 @@ github-automation:
   # Default headless mode for Selenium
   headless: ${SELENIUM_HEADLESS:true}
   # Optional login; empty means no login
-  loginEmail: ${GITHUB_LOGIN_EMAIL:}
-  loginPassword: ${GITHUB_LOGIN_PASSWORD:}
+  loginEmail: ${GITHUB_LOGIN_EMAIL:github-login-email}
+  loginPassword: ${GITHUB_LOGIN_PASSWORD:github-login-password}
+  mobileApprovalTimeoutSeconds: ${GITHUB_MOBILE_TIMEOUT_SECONDS:360}
+  mobilePollingIntervalSeconds: ${GITHUB_MOBILE_POLL_SECONDS:2}

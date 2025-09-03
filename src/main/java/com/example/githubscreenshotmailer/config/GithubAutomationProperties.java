@@ -14,4 +14,6 @@ public class GithubAutomationProperties {
     private boolean headless = true;
     private String loginEmail;
     private String loginPassword;
+    private int mobileApprovalTimeoutSeconds;
+    private int mobilePollingIntervalSeconds;
 }
