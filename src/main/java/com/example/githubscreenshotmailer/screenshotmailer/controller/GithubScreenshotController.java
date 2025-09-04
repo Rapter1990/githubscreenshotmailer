@@ -1,12 +1,10 @@
 package com.example.githubscreenshotmailer.screenshotmailer.controller;
 
 import com.example.githubscreenshotmailer.common.model.CustomPage;
-import com.example.githubscreenshotmailer.common.model.dto.request.CustomPagingRequest;
 import com.example.githubscreenshotmailer.common.model.dto.response.CustomPagingResponse;
 import com.example.githubscreenshotmailer.common.model.dto.response.CustomResponse;
 import com.example.githubscreenshotmailer.screenshotmailer.model.ScreenshotRecord;
 import com.example.githubscreenshotmailer.screenshotmailer.model.dto.request.FilterServicePagingRequest;
-import com.example.githubscreenshotmailer.screenshotmailer.model.dto.request.ListScreenshotRecordRequest;
 import com.example.githubscreenshotmailer.screenshotmailer.model.dto.request.ScreenshotRequest;
 import com.example.githubscreenshotmailer.screenshotmailer.model.dto.response.ScreenshotResponse;
 import com.example.githubscreenshotmailer.screenshotmailer.model.mapper.CustomPageScreenshotRecordToCustomPagingScreenshotResponseMapper;
@@ -21,7 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

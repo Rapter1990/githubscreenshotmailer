@@ -1,7 +1,6 @@
 package com.example.githubscreenshotmailer.logging.model.entity;
 
 import com.example.githubscreenshotmailer.common.model.entity.BaseEntity;
-
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
