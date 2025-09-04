@@ -43,8 +43,4 @@ public class ScreenshotRecordEntity extends BaseEntity {
     @Column(nullable = false)
     private ScreenshotStatus status;
 
-    @Column(length = 2000)
-    private String errorMessage;
-
-
 }

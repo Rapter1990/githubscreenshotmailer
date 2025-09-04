@@ -123,7 +123,6 @@ public class GithubScreenshotService {
                     .fileSizeBytes(0)
                     .sentAt(LocalDateTime.now())
                     .status(ScreenshotStatus.FAILED)
-                    .errorMessage(error)
                     .build();
             repository.save(failed);
         } catch (Exception persistEx) {
