@@ -15,8 +15,8 @@ import io.swagger.v3.oas.annotations.info.Info;
                         name = "Sercan Noyan Germiyanoğlu",
                         url = "https://github.com/Rapter1990/githubscreenshotmailer"
                 ),
-                description = "Case Study - Live Betting" +
-                        " (Java 21, Spring Boot, MySql, JUnit, Docker, Jenkins) ",
+                description = "Case Study - Github Screenshot Mailer" +
+                        " (Java 21, Spring Boot, MySql, JUnit, Docker, Prometheus , Grafana , Jenkins) ",
                 title = "githubscreenshotmailer",
                 version = "1.0.0"
         )
