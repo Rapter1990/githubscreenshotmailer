@@ -13,12 +13,10 @@ public class EmailSendException extends ApiException {
         initCause(cause);
     }
 
-    public EmailSendException(String reason) {
-        super("Email sending failed: " + reason);
-    }
+    @Override
+    public HttpStatus getStatus() { return STATUS; }
 
-    @Override public HttpStatus getStatus() { return STATUS; }
-
-    @Override public CustomError.Header getHeader() { return HEADER; }
+    @Override
+    public CustomError.Header getHeader() { return HEADER; }
 
 }

@@ -1,9 +1,12 @@
 package com.example.githubscreenshotmailer.screenshotmailer.service;
 
+import com.example.githubscreenshotmailer.common.model.CustomPage;
+import com.example.githubscreenshotmailer.common.model.dto.request.CustomPagingRequest;
 import com.example.githubscreenshotmailer.screenshotmailer.config.GithubAutomationProperties;
 import com.example.githubscreenshotmailer.screenshotmailer.exception.ApiException;
 import com.example.githubscreenshotmailer.screenshotmailer.exception.ScreenshotCaptureException;
 import com.example.githubscreenshotmailer.screenshotmailer.model.ScreenshotRecord;
+import com.example.githubscreenshotmailer.screenshotmailer.model.dto.request.ListScreenshotRecordRequest;
 import com.example.githubscreenshotmailer.screenshotmailer.model.dto.request.ScreenshotRequest;
 import com.example.githubscreenshotmailer.screenshotmailer.model.entity.ScreenshotRecordEntity;
 import com.example.githubscreenshotmailer.screenshotmailer.model.enums.ScreenshotStatus;
@@ -12,7 +15,9 @@ import com.example.githubscreenshotmailer.screenshotmailer.repository.Screenshot
 import com.example.githubscreenshotmailer.screenshotmailer.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,6 +39,7 @@ public class GithubScreenshotService {
     /**
      * Orchestrates: capture → email → persist. Returns DOMAIN record.
      */
+    @Transactional
     public ScreenshotRecord process(ScreenshotRequest req) {
         Path baseDir = Path.of(props.getScreenshotDir()).toAbsolutePath();
 
@@ -90,6 +96,23 @@ public class GithubScreenshotService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public CustomPage<ScreenshotRecord> getScreenshots(ListScreenshotRecordRequest request,
+                                                       CustomPagingRequest pagingRequest) {
+        // Allow calling with null to mean "no filters"
+        var spec = (request != null) ? request.toSpecification() : null;
+
+        Page<ScreenshotRecordEntity> page =
+                repository.findAll(spec, pagingRequest.toPageable());
+
+        var items = page.getContent()
+                .stream()
+                .map(ENTITY_TO_DOMAIN::map)
+                .toList();
+
+        return CustomPage.of(items, page);
+    }
+
     private void persistFailure(ScreenshotRequest req, String fileName, String error) {
         try {
             ScreenshotRecordEntity failed = ScreenshotRecordEntity.builder()
@@ -107,4 +130,5 @@ public class GithubScreenshotService {
             log.error("Failed to persist FAILED ScreenshotRecordEntity: {}", persistEx.getMessage(), persistEx);
         }
     }
+
 }

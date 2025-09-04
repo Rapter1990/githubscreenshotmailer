@@ -1,5 +1,6 @@
 package com.example.githubscreenshotmailer.screenshotmailer.model.entity;
 
+import com.example.githubscreenshotmailer.common.model.entity.BaseEntity;
 import com.example.githubscreenshotmailer.screenshotmailer.model.enums.ScreenshotStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScreenshotRecordEntity {
+public class ScreenshotRecordEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

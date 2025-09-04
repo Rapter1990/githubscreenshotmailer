@@ -29,21 +29,18 @@ public class ListScreenshotRecordRequest implements Filterable<ScreenshotRecordE
     @Setter
     public static class Filter {
 
-        private Optional<String> githubUsername = Optional.empty();
-        private Optional<String> recipientEmail = Optional.empty();
-        private Optional<ScreenshotStatus> status = Optional.empty();
+        private String githubUsername;
+        private String recipientEmail;
+        private ScreenshotStatus status;
 
-        // Date range
-        private Optional<LocalDateTime> sentAtFrom = Optional.empty();
-        private Optional<LocalDateTime> sentAtTo   = Optional.empty();
+        private LocalDateTime sentAtFrom;
+        private LocalDateTime sentAtTo;
 
-        // File attributes
-        private Optional<Long> minFileSizeBytes = Optional.empty();
-        private Optional<Long> maxFileSizeBytes = Optional.empty();
-        private Optional<String> fileNameContains = Optional.empty();
+        private Long minFileSizeBytes;
+        private Long maxFileSizeBytes;
 
-        // Generic keyword search across username/email/fileName
-        private Optional<String> keyword = Optional.empty();
+        private String fileNameContains;
+        private String keyword;
     }
 
     /**
@@ -53,50 +50,37 @@ public class ListScreenshotRecordRequest implements Filterable<ScreenshotRecordE
      */
     @Override
     public Specification<ScreenshotRecordEntity> toSpecification() {
-
-        if (filter == null) {
-            // Returning null is acceptable for Spring Data and means "no filtering"
-            return null;
-        }
+        if (filter == null) return null;
 
         List<Specification<ScreenshotRecordEntity>> specs = new ArrayList<>();
 
-        filter.getGithubUsername()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.hasGithubUsername(v)));
-
-        filter.getRecipientEmail()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.hasRecipientEmail(v)));
-
-        filter.getStatus()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.hasStatus(v)));
-
-        // sentAt range (supports from, to, or both)
-        if (filter.getSentAtFrom().isPresent() && filter.getSentAtTo().isPresent()) {
-            specs.add(ScreenshotRecordSpecification.sentBetween(
-                    filter.getSentAtFrom().get(), filter.getSentAtTo().get()
-            ));
-        } else {
-            filter.getSentAtFrom()
-                    .ifPresent(v -> specs.add(ScreenshotRecordSpecification.sentAfter(v)));
-            filter.getSentAtTo()
-                    .ifPresent(v -> specs.add(ScreenshotRecordSpecification.sentBefore(v)));
+        if (filter.getGithubUsername() != null && !filter.getGithubUsername().isBlank()) {
+            specs.add(ScreenshotRecordSpecification.hasGithubUsername(filter.getGithubUsername()));
+        }
+        if (filter.getRecipientEmail() != null && !filter.getRecipientEmail().isBlank()) {
+            specs.add(ScreenshotRecordSpecification.hasRecipientEmail(filter.getRecipientEmail()));
+        }
+        if (filter.getStatus() != null) {
+            specs.add(ScreenshotRecordSpecification.hasStatus(filter.getStatus()));
         }
 
-        filter.getMinFileSizeBytes()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.fileSizeGte(v)));
+        if (filter.getSentAtFrom() != null && filter.getSentAtTo() != null) {
+            specs.add(ScreenshotRecordSpecification.sentBetween(filter.getSentAtFrom(), filter.getSentAtTo()));
+        } else {
+            if (filter.getSentAtFrom() != null) specs.add(ScreenshotRecordSpecification.sentAfter(filter.getSentAtFrom()));
+            if (filter.getSentAtTo() != null)   specs.add(ScreenshotRecordSpecification.sentBefore(filter.getSentAtTo()));
+        }
 
-        filter.getMaxFileSizeBytes()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.fileSizeLte(v)));
+        if (filter.getMinFileSizeBytes() != null) specs.add(ScreenshotRecordSpecification.fileSizeGte(filter.getMinFileSizeBytes()));
+        if (filter.getMaxFileSizeBytes() != null) specs.add(ScreenshotRecordSpecification.fileSizeLte(filter.getMaxFileSizeBytes()));
 
-        filter.getFileNameContains()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.fileNameLike(v)));
+        if (filter.getFileNameContains() != null && !filter.getFileNameContains().isBlank()) {
+            specs.add(ScreenshotRecordSpecification.fileNameLike(filter.getFileNameContains()));
+        }
+        if (filter.getKeyword() != null && !filter.getKeyword().isBlank()) {
+            specs.add(ScreenshotRecordSpecification.search(filter.getKeyword()));
+        }
 
-        filter.getKeyword()
-                .ifPresent(v -> specs.add(ScreenshotRecordSpecification.search(v)));
-
-        // Combine all with AND; if none present, return null (no restriction)
         return specs.stream().reduce(Specification::and).orElse(null);
-
     }
-
 }
