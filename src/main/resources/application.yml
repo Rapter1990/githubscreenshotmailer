@@ -48,6 +48,19 @@ springdoc:
   show-actuator: true
   override-with-generic-response: false
 
+# Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+          - prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 github-automation:
   # Directory to store screenshots (will be created if missing)
   screenshotDir: ${SCREENSHOT_DIR:./screenshots}
