@@ -1,7 +1,7 @@
 package com.example.githubscreenshotmailer.logging.aop;
 
+import ch.qos.logback.classic.Level;
 import com.example.githubscreenshotmailer.base.AbstractBaseServiceTest;
-
 import com.example.githubscreenshotmailer.logging.model.entity.LogEntity;
 import com.example.githubscreenshotmailer.logging.service.LogService;
 import com.example.githubscreenshotmailer.screenshotmailer.exception.EmailSendException;
@@ -20,16 +20,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import ch.qos.logback.classic.Level;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

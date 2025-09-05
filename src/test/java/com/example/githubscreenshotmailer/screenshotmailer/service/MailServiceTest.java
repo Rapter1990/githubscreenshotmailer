@@ -4,20 +4,20 @@ import com.example.githubscreenshotmailer.base.AbstractBaseServiceTest;
 import com.example.githubscreenshotmailer.screenshotmailer.exception.EmailSendException;
 import jakarta.mail.Address;
 import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import jakarta.mail.Session;
-import jakarta.mail.internet.MimeMessage;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class MailServiceTest extends AbstractBaseServiceTest {
