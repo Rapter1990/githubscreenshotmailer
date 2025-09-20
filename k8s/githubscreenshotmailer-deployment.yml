@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: githubscreenshotmailer
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: githubscreenshotmailer
+  template:
+    metadata:
+      labels:
+        app: githubscreenshotmailer
+    spec:
+      containers:
+        - name: githubscreenshotmailer
+          # Push your image to a registry and update this value accordingly:
+          image: noyandocker/githubscreenshotmailer:latest
+          ports:
+            - containerPort: 1926   # matches SERVER_PORT
+          envFrom:
+            - configMapRef:
+                name: githubscreenshotmailer-config
+          env:
+            # --- DB credentials from Secret ---
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: DATABASE_USERNAME
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: DATABASE_PASSWORD
+
+            # --- Gmail SMTP creds (optional but recommended as secrets) ---
+            - name: GMAIL_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: gmail-secret
+                  key: GMAIL_ADDRESS
+            - name: GMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gmail-secret
+                  key: GMAIL_PASSWORD
+
+            # --- GitHub login creds (optional) ---
+            - name: GITHUB_LOGIN_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials-secret
+                  key: GITHUB_LOGIN_EMAIL
+            - name: GITHUB_LOGIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials-secret
+                  key: GITHUB_LOGIN_PASSWORD
+            - name: spring.datasource.url
+              value: "jdbc:mysql://mysql.default.svc.cluster.local:3307/githubscreenshotsdatabase"
+
+
+          # Optional: persist screenshots (requires a PVC you define)
+          volumeMounts:
+            - name: screenshots
+              mountPath: /data/screenshots
+      volumes:
+        - name: screenshots
+          emptyDir: {}   # swap to a PVC if you want persistence
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: githubscreenshotmailer-service
+  namespace: default
+spec:
+  selector:
+    app: githubscreenshotmailer
+  ports:
+    - protocol: TCP
+      port: 1926
+      targetPort: 1926
+  type: NodePort

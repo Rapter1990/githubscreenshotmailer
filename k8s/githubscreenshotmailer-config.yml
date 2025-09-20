@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: githubscreenshotmailer-config
+  namespace: default
+data:
+  GITHUB_SCREENSHOT_DB_IP: "mysql.default.svc.cluster.local"
+  GITHUB_SCREENSHOT_DB_PORT: "3307"
+  SERVER_PORT: "1926"
+  SCREENSHOT_DIR: "/data/screenshots"
+  SELENIUM_HEADLESS: "true"
