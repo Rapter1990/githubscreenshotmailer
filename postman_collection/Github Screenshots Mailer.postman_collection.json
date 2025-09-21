@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "98a2ab44-c04a-4395-82c8-e9dafadc2556",
+		"name": "Github Screenshots Mailer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33002673"
+	},
+	"item": [
+		{
+			"name": "send screenshot via Email",
+			"item": [
+				{
+					"name": "Send Screenshot via Email without Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"githubUsername\": \"Rapter1990\",\r\n    \"recipientEmail\": \"sngermiyanoglu@gmail.com\",\r\n    \"withLogin\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1926/api/github-screenshots",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1926",
+							"path": [
+								"api",
+								"github-screenshots"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST '{{base_url}}/api/github-screenshots' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"githubUsername\": \"torvalds\",\r\n    \"recipientEmail\": \"recipient@example.com\",\r\n    \"withLogin\": false\r\n  }'"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Screenshot via Email with Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"githubUsername\": \"Rapter1990\",\r\n    \"recipientEmail\": \"sngermiyanoglu@gmail.com\",\r\n    \"withLogin\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1926/api/github-screenshots",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1926",
+							"path": [
+								"api",
+								"github-screenshots"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST '{{base_url}}/api/github-screenshots' \\\r\n  -H 'Content-Type: application/json' \\\r\n  -d '{\r\n    \"githubUsername\": \"torvalds\",\r\n    \"recipientEmail\": \"recipient@example.com\",\r\n    \"withLogin\": false\r\n  }'"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Screenhshoots with Filter and Pagination",
+			"item": [
+				{
+					"name": "Get Screenshot with Filter and Pagining",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"filterRequest\": {\r\n    \"filter\": {\r\n      \"githubUsername\": \"Rapter1990\",\r\n      \"recipientEmail\": \"sngermiyanoglu@gmail.com\",\r\n      \"status\": \"SUCCESS\",\r\n      \"sentAtFrom\": \"2025-09-01T00:00:00\",\r\n      \"sentAtTo\": \"2025-09-04T23:59:59\",\r\n      \"minFileSizeBytes\": 1000,\r\n      \"maxFileSizeBytes\": 5000000\r\n    }\r\n  },\r\n  \"pagingRequest\": {\r\n    \"pagination\": {\r\n      \"pageNumber\": 1,\r\n      \"pageSize\": 10\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1926/api/github-screenshots/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1926",
+							"path": [
+								"api",
+								"github-screenshots",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Screenshot with Pagination And Sorting",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"pagingRequest\": {\r\n    \"pagination\": {\r\n      \"pageNumber\": 1,\r\n      \"pageSize\": 10\r\n    },\r\n    \"sorting\": {\r\n      \"sortBy\": \"sentAt\",\r\n      \"sortDirection\": \"DESC\"\r\n    }\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1926/api/github-screenshots/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1926",
+							"path": [
+								"api",
+								"github-screenshots",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Screenshot with Filter, Pagination and Sorting",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"filterRequest\": {\r\n    \"filter\": {\r\n      \"githubUsername\": \"Rapter1990\",\r\n      \"recipientEmail\": \"sngermiyanoglu@gmail.com\",\r\n      \"status\": \"SUCCESS\",\r\n      \"sentAtFrom\": \"2025-09-01T00:00:00\",\r\n      \"sentAtTo\": \"2025-09-04T23:59:59\",\r\n      \"minFileSizeBytes\": 1000,\r\n      \"maxFileSizeBytes\": 5000000\r\n    }\r\n  },\r\n  \"pagingRequest\": {\r\n    \"pagination\": {\r\n      \"pageNumber\": 1,\r\n      \"pageSize\": 10\r\n    },\r\n    \"sorting\": {\r\n      \"sortBy\": \"sentAt\",\r\n      \"sortDirection\": \"DESC\"\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1926/api/github-screenshots/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1926",
+							"path": [
+								"api",
+								"github-screenshots",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
