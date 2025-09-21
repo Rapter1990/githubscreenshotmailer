@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.info.Info;
                         url = "https://github.com/Rapter1990/githubscreenshotmailer"
                 ),
                 description = "Case Study - Github Screenshot Mailer" +
-                        " (Java 21, Spring Boot, MySql, JUnit, Docker, Prometheus , Grafana , Jenkins) ",
+                        " (Java 21, Spring Boot, MySql, JUnit, Docker, Prometheus , Grafana) ",
                 title = "githubscreenshotmailer",
                 version = "1.0.0"
         )
